@@ -179,7 +179,23 @@ def update_a_user():
     tags= ['Tweets']
     )
 def home():
-    return{"Hola":"Mundo"}
+    """ Show all Tweets
+
+    This path operation shows all the tweets
+
+    Parameters:
+        - 
+    
+    Returns a json with all tweets in the app, with the following keys
+        - tweet_id : UUID 
+        - content : str
+        - created_at : datetime 
+        - updated_at : Optional[datetime] 
+        - by : User 
+    """
+    with open('tweets.json','r',encoding='utf-8') as f:
+        results = json.loads(f.read())
+        return results
 
 
 ### Post a tweet
