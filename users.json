@@ -14,5 +14,13 @@
     "first_name": "Octavio",
     "last_name": "Rojas",
     "birthday": "1985-04-08"
+  },
+  {
+    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "email": "jhonacio@example.com",
+    "password": "holasoy jhonacio",
+    "first_name": "jhonacio",
+    "last_name": "rex",
+    "birthday": "1990-12-08"
   }
 ]
