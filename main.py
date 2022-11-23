@@ -87,10 +87,10 @@ def signup(
     """
     with open('users.json',"r+",encoding="utf-8") as f:
         result = json.loads(f.read())
-        user_dict = user.dict()
-        user_dict['user_id'] = str (user_dict['user_id'])
-        user_dict['birthday'] = str (user_dict['birthday'])
-        result.append(user_dict)
+        tweet_dict = user.dict()
+        tweet_dict['user_id'] = str (tweet_dict['user_id'])
+        tweet_dict['birthday'] = str (tweet_dict['birthday'])
+        result.append(tweet_dict)
         f.seek(0)
         f.write(json.dumps(result))
         return user
@@ -122,7 +122,7 @@ def show_all_users():
     Parameters:
         -
     
-    Returns a json with all users on the app, with the following keys
+    Returns a json with the basic tweet information keys
         - user_id: UUID
         - email: EmailStr
         - first_name: str
@@ -132,8 +132,6 @@ def show_all_users():
     with open('users.json','r',encoding='utf-8') as f:
         results = json.loads(f.read())
         return results
-
-
 
 
 ### Show a User
@@ -192,8 +190,34 @@ def home():
     summary="Post a tweet",
     tags= ['Tweets']
     )
-def post_tweet():
-    pass
+def post_tweet(tweet : Tweet = Body(...)):
+    """ Post a Tweet
+
+    This path operation post a new tweet in the app
+
+    Parameters:
+        - tweet : Tweet
+    
+    Returns a json with all users on the app, with the following keys
+        - tweet_id : UUID 
+        - content : str
+        - created_at : datetime 
+        - updated_at : Optional[datetime] 
+        - by : User 
+    """
+    with open('tweets.json',"r+",encoding="utf-8") as f:
+        result = json.loads(f.read())
+        tweet_dict = tweet.dict()
+        tweet_dict['tweet_id'] = str (tweet_dict['tweet_id'])
+        tweet_dict['created_at'] = str (tweet_dict['created_at']) 
+        tweet_dict['updated_at'] = str (tweet_dict['updated_at'])
+        tweet_dict['by']['user_id'] = str(tweet_dict['by']['user_id'])
+        tweet_dict['by']['birthday'] = str(tweet_dict['by']['birthday'])
+
+        result.append(tweet_dict)
+        f.seek(0)
+        f.write(json.dumps(result))
+        return tweet
 
 ### Show a Tweet
 @app.get(
