@@ -52,13 +52,8 @@ class Tweet(BaseModel):
 
 # Path Operations
 
-@app.get(path ='/')
-def home():
-    return{"Hola":"Mundo"}
-
-
 ## Users
-
+### Register a user
 @app.post(
     path = "/signup",
     response_model=User,
@@ -69,7 +64,7 @@ def home():
 def signup():
     pass
 
-
+### User Login
 @app.post(
     path = "/login",
     response_model=User,
@@ -80,7 +75,7 @@ def signup():
 def login():
     pass
 
-
+### Show all the Users
 @app.get(
     path = "/users",
     response_model=List[User],
@@ -91,7 +86,7 @@ def login():
 def show_all_users():
     pass
 
-
+### Show a User
 @app.get(
     path = "/users/{user_id}",
     response_model=User,
@@ -102,7 +97,7 @@ def show_all_users():
 def show_a_user():
     pass
 
-
+### Delete a User
 @app.delete(
     path = "/users/{user_id}/delete",
     response_model=User,
@@ -113,7 +108,7 @@ def show_a_user():
 def delete_a_user():
     pass
 
-
+### Update a User
 @app.put(
     path = "/users/{user_id}/update",
     response_model=User,
@@ -126,6 +121,63 @@ def update_a_user():
 
 
 ## Tweets
+
+### Show all Tweets
+@app.get(
+    path ='/',
+    response_model=List[Tweet],
+    status_code= status.HTTP_200_OK,
+    summary="Show all tweets",
+    tags= ['Tweets']
+    )
+def home():
+    return{"Hola":"Mundo"}
+
+
+### Post a tweet
+@app.post(
+    path ='/tweet/post',
+    response_model=Tweet,
+    status_code= status.HTTP_201_CREATED,
+    summary="Post a tweet",
+    tags= ['Tweets']
+    )
+def post_tweet():
+    pass
+
+### Show a Tweet
+@app.get(
+    path ='/tweet/{tweet_id}',
+    response_model=Tweet,
+    status_code= status.HTTP_200_OK,
+    summary="Show a tweet",
+    tags= ['Tweets']
+    )
+def show_tweet():
+    pass
+
+### Delete a Tweet
+@app.delete(
+    path ='/tweet/{tweet_id}/delete',
+    response_model=Tweet,
+    status_code= status.HTTP_200_OK,
+    summary="Delete a tweet",
+    tags= ['Tweets']
+    )
+def delete_tweet():
+    pass
+
+
+### Update a Tweet
+@app.put(
+    path ='/tweet/{tweet_id}/update',
+    response_model=Tweet,
+    status_code= status.HTTP_200_OK,
+    summary="Update a tweet",
+    tags= ['Tweets']
+    )
+def update_tweet():
+    pass
 
 
 
