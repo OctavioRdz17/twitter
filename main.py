@@ -11,9 +11,8 @@ from pydantic import Field
 # FastAPI
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body
-
-
+from fastapi import Body, Path
+from fastapi import HTTPException
 
 app = FastAPI()
 
@@ -95,6 +94,7 @@ def signup(
         f.write(json.dumps(result))
         return user
 
+
 ### User Login
 @app.post(
     path = "/login",
@@ -103,8 +103,42 @@ def signup(
     summary="Login a User",
     tags= ['Users']
 )
-def login():
-    pass
+def login(user:UserRegister = Body(...)):
+    """Login
+    
+    This path operation register a user in the app
+
+    Parameters:
+        - Request body parameter
+            - user: UserRegister
+
+    Returns a json whit the basic user information
+        - user_id: UUID
+        - email: EmailStr
+        - first_name: str
+        - last_name : str
+        - birthdate : date
+    """
+    with open('users.json','r',encoding='utf-8') as f:
+        results = json.loads(f.read())
+        user_dict = user.dict()
+        for us in results:
+            if us['email'] == user_dict['email']:
+                if us['password'] == user_dict['password']:
+                    return us
+                else:
+                    # return "User's password doesn't match"
+                    raise HTTPException(
+                        status_code=status.HTTP_404_NOT_FOUND,
+                        detail="User's password doesn't match"
+                        )
+    
+    raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User_id not found"
+            )
+    
+    
 
 ### Show all the Users
 @app.get(
@@ -142,19 +176,68 @@ def show_all_users():
     summary="Show a User",
     tags= ['Users']
 )
-def show_a_user():
-    pass
+def show_a_user(
+    user_id : str = Path(
+        ...,
+        title= "Show a Person details",
+        description="this is the id number.in a format UUID"
+        )
+):
+    """ Show a Users
+
+    This path operation show a user in the app
+
+    Parameters:
+        - user_id
+    
+    Returns a json with the basic user information, keys
+        - user_id: UUID
+        - email: EmailStr
+        - first_name: str
+        - last_name: str
+        - birthdate : date
+    """
+    with open('users.json','r') as f:
+        results = json.loads(f.read())
+        for us in results:
+            if(us['user_id'] == user_id):
+                return us
+
+    return user_id
+
 
 ### Delete a User
 @app.delete(
     path = "/users/{user_id}/delete",
-    response_model=User,
+    response_model=List [User],
     status_code= status.HTTP_200_OK,
     summary="Delete a User",
     tags= ['Users']
 )
-def delete_a_user():
-    pass
+def delete_a_user(
+    user_id : str = Path(
+        ...,
+        title= "Deletes a Person",
+        description="Delete the account from the app"
+        )
+):
+    with open('users.json','r+') as f:
+        results = json.loads(f.read())
+        for i, us in enumerate(results):
+            if(us['user_id'] == user_id):
+                results.pop(i)
+                with open('users.json','w') as fd:
+                    fd.write(json.dumps(results))
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="User_id not found"
+        )
+
+    
+        
+        
+
 
 ### Update a User
 @app.put(
@@ -164,8 +247,25 @@ def delete_a_user():
     summary="Update a User",
     tags= ['Users']
 )
-def update_a_user():
-    pass
+def update_a_user(new_user : User = Body(...)):
+    with open('users.json','r+') as f:
+        results = json.loads(f.read())
+        user_dict = new_user.dict()
+        for i, us in enumerate(results):
+            if us["user_id"]==user_dict["user_id"]:
+                user_dict['user_id'] = str(user_dict['user_id'])
+                user_dict['birthday'] = str(user_dict['birthday'])
+                results.pop(i)
+                results.append(user_dict)
+                f.seek(0)
+                f.write(json.dumps(results))
+                return new_user
+                
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="User_id not found"
+        )
+    
 
 
 ## Tweets

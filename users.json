@@ -1,26 +1,31 @@
 [
   {
-    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "email": "tavo@example.com",
-    "password": "asdasdasdffff",
+    "user_id": "3fa85f64-5716-4562-b3fc-2c963f66afa6",
+    "email": "yolo@example.com",
     "first_name": "yolo",
     "last_name": "yolotitlt",
     "birthday": "2022-11-23"
   },
   {
-    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "user_id": "4fa85f64-5717-4562-b3fc-2c963f66afa6",
     "email": "octavio@example.com",
-    "password": "holasoy tavo",
     "first_name": "Octavio",
     "last_name": "Rojas",
     "birthday": "1985-04-08"
   },
   {
-    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "user_id": "5fa85f64-5719-4562-b3fc-2c963f66afa6",
     "email": "jhonacio@example.com",
-    "password": "holasoy jhonacio",
     "first_name": "jhonacio",
     "last_name": "rex",
     "birthday": "1990-12-08"
+  },
+  {
+    "user_id": "50a85f64-5717-4562-b3fc-2c963f66afa6",
+    "email": "loquillo@example.com",
+    "password": "asdasffff",
+    "first_name": "Loquillo",
+    "last_name": "rastacuando",
+    "birthday": "2022-11-25"
   }
 ]
